@@ -1,0 +1,575 @@
+"3c.
+
+JOURNAL OF INFORMATION PROCESSING SYSTEMS J
+ 
+Movie Recommendation Algorithm Using Social Network
+Analysis to Alleviate Cold-Start Problem
+Khamphaphone Xinchang*, Phonexay Vilakone*, and Doo-Soon Park**
+ 
+Abstract
+With the rapid increase of information on the World Wide Web, finding useful information on the internet has
+become a major problem. The recommendation system helps users make decisions in complex data areas where
+the amount of data available is large. There are many methods that have been proposed in the recommender
+system. Collaborative ﬁltering is a popular method widely used in the recommendation system. However,
+collaborative ﬁltering methods still have some problems, namely cold-start problem. In this paper, we propose
+a movie recommendation system by using social network analysis and collaborative ﬁltering to solve this
+problem associated with collaborative filtering methods. We applied personal propensity of users such as age,
+gender, and occupation to make relationship matrix between users, and the relationship matrix is applied to
+cluster user by using community detection based on edge betweenness centrality. Then the recommended
+system will suggest movies which were previously interested by users in the group to new users. We show shown
+that the proposed method is a very efﬁcient method using mean absolute error.
+
+Keywords
+Cold Start Problem, Collaborative Filtering (CF), Movie Recommendation System, Social Network Analysis
+1 . Introduction
+In recent years, information available on the internet is rapidly growing up; people need more time to
+select useful information. Social media use continues to grow rapidly, too. There are currently more than
+3 billion people around the world using social media each month. The new Global Digital 2018 report
+has revealed that there are currently more than 4 billion people worldwide using the Internet [1]. Social
+networks are one of the most popular communications media today and it attracts millions of active users
+to share and comment on their photos and places with others [2]. To manage the information overload
+problem, the recommendation system has been developed. A recommendation system is a simple
+algorithm that allows users to relate and recommend items by ﬁltering user-related data from large data.
+Recommender systems are software tools that make the recommendation of product or items that are
+appropriate for a customer’s taste based on the analysis of information of products that many customers
+are interested in and the customer’s and their past purchasing activity [3]. The recommendations system
+can help users to make decisions in multiple contexts. The goal of recommendation system is to ﬁnd
+what’s likely to be interest to the users. Over the years, many recommender systems were introduced by
+researchers from different problem areas. We can utilize recommendation systems that use different
+techniques including collaborative ﬁltering (CF) technique, content-based ﬁltering technique, and hybrid
+technique. These recommendation systems will recommend popular items that customers liked [4]. CF
+method is one most successful and widely used in recommendation systems [5]. The basic idea of this
+algorithm is to use common experiences or similar interests. The important process is to search users that
+are similar to the target user or ﬁnd the product that is similar to the predicted product. But, the CF
+algorithm also has some problems such as a cold-start problem [6]. Cold-start problem is a problem
+where the system is not able to recommend items to users. For every recommender system, it is required
+to build a user proﬁle by considering the user’s preferences and likes. The user proﬁle is developed by
+considering her activities and behaviors they perform with the system. On the basis of user’s previous
+history and activities, the system makes decisions and consequently recommends items. The problem
+arises when a new user or new item enters the system, for such users or items that the system does not
+have enough information to make decision. For example, if a new user has not rated some items and not
+yet visited/viewed some items, then it would be difﬁcult for the system to build a model on that basis.
+This can lead to inaccuracies in estimating similarities between users. Many approaches have been studied
+to solve the existing problem. Embarak [7] suggested two types of recommendation such as node
+recommendation and batch recommendation, and then compared the suggested method with three other
+alternative methods including Naive Filterbots Method, Media Scout Stereotype Method, and Triadic
+Aspect Method to solve the cold-start problem. Basiri et a1. [8] suggested a new hybrid approach, which
+focuses on improving performance under cold start problem. This method can give a reasonable and
+appropriate recommendation.
+
+With the development of technology, the user’s behavior and personal information can be tracked and
+recorded on social networking sites or online shopping sites. This type of technology makes it easier and
+it is very useful for analyzing user preferences. We analysis social network analysis (SNA) methods [9,10]
+and introduced the betweenness centrality in SNA into a CF approach. This paper presents a movie
+recommendation algorithm using SNA to alleviate the cold-start problem. In the proposed method, the
+user’s personal information such as age, gender, and occupation are used to establish a relationship
+between users. Then the relationship matrix between users will be applied for clustering the user into
+several communities or groups. In this process, the centrality of SNA is used to detection communities;
+after that, the system will recommend movies in the group that is similar to the target users by considering
+CF. The main objective of this article is to develop techniques that can recommend the most suitable
+movies for target users based on personal characteristics.
+
+The proposed work is brieﬂy described as follows. In Section 2, we will explain about the related work
+which is the methods used in this paper. Our proposed algorithm for movie recommendation algorithm
+using SNA to alleviate cold start problem will describe in Section 3. In Section 4, will present experimental
+analysis and experimental results and ﬁnally, the conclusion will be concluded in Section 5.
+
+2. Related Works
+In this section, we have a purpose to brieﬂy explain about the relevant research, including the recom-
+mendation system, CF, and SNA that are required for the movie recommendation system in this study.
+
+2.1 Recommendation System
+In recent years, the recommender system has become more popular. It has been used in many areas 
+including book, news, movie, music, and products. There are also recommender systems for experts [11],
+restaurants, collaborators [12], garments, jokes, ﬁnancial services [13], romantic partners, life insurance,
+and Twitter pages [14]. These recommendation systems use one type of ﬁltering to predict ratings and
+user satisfaction, which allows users to purchase products based on their interests or needs. Having
+information about user’s life can give hints about how the user will react when faced with different
+situations [15]. The recommender system is a useful alternative of search algorithms because it can help
+users discover what they may not ﬁnd. It is usually performed using a non-traditional indexing search
+engine. A recommender system is a technology that makes automatics predictions about the relationship
+between customers or between items and searches for items that users may need. There are many
+approaches to make a recommender system, including the following.
+
+o Content-based ﬁltering: Content-based ﬁltering methods depend on the item’s features and user
+preferences [16]. These methods work with data that the user provides. Based on this data, a user
+proﬁle will be created which will be used to give advice to users. As the user provides more input
+and accepts recommendations, the engine becomes more and more accurate. These algorithms
+try to recommend the products that are similar to those that the user liked in the past. In
+particular, many nominated the products are compared to the products that were previously
+ranked by the user. This method provides the foundation for data retrieval and data ﬁltering
+research.
+
+0 Collaborative ﬁltering: CF method is used to automatically predict or ﬁlter information about
+user interests by collecting settings or tasting data from multiple users (collaborating). The basis
+of the CF method is assuming that if user U1 has the same taste with user U2, user U1 tends to have
+the taste of U2 on issues that differ from those of random users [17]. Collaborative recommender
+systems receive a list of recommended items by analyzing similarities between users and
+predicting user ratings of an item based on similar user ratings on the same list [18].
+
+0 Hybrid recommender system: Hybrid methods can be used in many ways. This approach can be
+making content-based ﬁltering and collaborative-based ﬁltering predictions separately and it can
+combine them together. It can be used to enhance content-based capabilities through a
+collaborative-based approach. It can combine all of them into one format [19].
+
+The purpose of many studies about the referral system is to focus on the ability to recommend products
+that satisfy customers primarily. CF is the most commonly used method for identifying similarities
+between items.
+
+2.2 Collaborative Filtering Algorithm
+The CF method is derived from collecting and analyzing large amounts of data about user behavior,
+activities or user preferences, and predicts which users will be similar to other users. To understand what
+CF is, one can think of a simple question; for instance, if a person wants to read a book, but that person
+does not know which book is good, what will that person do? Usually, most people like to ask friends to
+see which books are good. We like to receive a suggestion from friends or people who have the same taste
+as us. This is the main idea of the CF method [20]. It can be separated into two types: user-based and
+item—based CF. Item—based CF depends on the similarity between the items calculated using the ratings
+of people for those items. For example, when users who like item 11 also like item 12, the similarity between
+these two items is are considered similar. User-based CF takes advantage of the similarities between users
+in the forecast. For example, if Mr. James and Mr. Paul have seen the same movie and they are also giving
+the same ratings, the similarities between them is 1. On the other side, assuming that they give the
+different rating to the item, the similarities will decrease as differences.
+
+In this paper, we adopted a user—based CF algorithm. The algorithm predicts that if users’ personal
+characteristics are similar, then their interests in products or items are also similar. The algorithm
+searches for the most similar users according to the target user information. Based on the most similar
+interests or preference, a user’s interest can be predicted. The recommender system will carry out
+information for suggest for relevant users. Cosine similarity is used to measure the similarity of users. Its
+formula [21] is shown in Eq. (1).
+
+In Eq. (1), A and B are two different vectors. Ai is the component of vector A and Bi is the component
+sim(A, B) =
+of vector B, respectively. The result of similarity ranges from —1 to 1. The negative value is the opposite;
+it refers to two different vectors. A positive value represents two similar vectors. With 0 indicating
+orthogonally or de-correlation while in-between values indicate intermediate similarity or dissimilarity.
+
+2.3 Social Network Analysis
+The SNA is a method used to analyze social network properties. It characterizes networked structures
+in terms of nodes, such as individual actors, people, or things in the network. Vertices indicate objects or
+entities while edges indicate links to show relationships or interactions. Both objects and the links may
+have attributes. Networks are constructed from general, real-world data. They propose several
+unexpected challenges pending to data domains themselves, e.g., information distillation, pre-processing,
+and data structures used for displaying knowledge and storage [22]. Social networks represent
+Step1: Calculate the betweenness centrality for all edges in the
+network
+Step2: Remove the edge with the highest betweenness
+Step3: Recalculate betweennesses centrality for all edges affected
+by the removal
+Step4: Repeat from step 2 until no edge remains
+Community or group
+Fig. 1. Community detect based on edge betweenness algorithm.
+
+
+
+
+Fig. 2. Community structure: (a) input graph, (b) computed betweenness values for the edges in graph,
+(c) at the end of iteration 1, remaining edges in the graph after removed edge 4—6 with highest
+betweenness score of 25.0, (d) at the end of iteration 6, remaining edges in the graph after removed edges
+6—7 with betweenness score is 7.0, (e) at the end of iteration 7, remaining edges in the graph after removed
+edges 3 and 4 with betweenness score is 7.0, (f) at the end of iteration 10, remaining edges in the graph
+after removed edge 0—2 with betweenness score of 5.0, (g) at the end of iteration 11, remaining edges in
+the graph after removed edges 5—6 with betweenness score is 5.0, (h) at the end of iteration 12, remaining
+edges in the graph after removed edge 8—10 with betweenness score is 5.0, and (i) at the end of iteration
+19, ﬁnal partitioning of the network graph into communities.
+
+relationships that exist within the community. Social networks provide tools for collaborative education,
+especially through the theory developed in analyzing social networks [23]. Even in the same community,
+there may be various types of social networks depending on social relationships as friends, mutual
+support and cooperation. The similarity is a common standard used to construct social relationship
+components of a community. Actors or nodes in social networks can be individuals, groups, objects,
+organizations or events, as long as certain relationships remain together. Centrality is an agent indicator
+used in SNA. There are many types of centrality including degrees’ centrality, closeness centrality, and
+betweenness centrality.
+
+Betweenness centrality is the measure of the center of the graph based on the shortest path. For all
+vertices in the connected graph, there is at least one shortest path between the vertices, which is each
+number of edges that pass through or the sum of the weight of the minimized edge. The betweenness
+centrality for each vertex is the number of shortest paths that pass through the vertex. Girvan and
+Newman [24] have presented a community detection algorithm in social networks and biological
+networks based on edge betweenness to avoid the ﬂaws of hierarchical clustering methods. This algorithm
+continuously detects communities by removing the edges from the original network, and the connected
+components of the network that remain are communities. Instead of trying to create a measure that tells
+us which edge is most central to the community, but this algorithm focuses on the edge that seems to be
+“between” communities. The algorithm steps for community detection are summarized as Fig. 1.
+
+An example in Fig. 2 shows the effective algorithm Girvan-Newman for edge community detection
+based on betweenness.
+
+3. Movies Recommender Algorithm Using Social Network Analysis
+to Alleviate Cold-Start Problem
+The process of data collection and workﬂow processes that are sufﬁcient for the recommended system
+are shown in Fig. 3. (D The system needs to collect user data and movie listings into the database used as
+a test dataset. ® The system requests that new users log in if they want to join. C3) The system needs to
+collect new user data and movie listings into the database used as a test dataset. @ In this process we
+make a relationship table for a user based on their personal propensity such as age, gender, and
+occupation; we call this table an adjacency matrix. (9 The relationship between the user table or
+adjacency matrix is used to evaluate a community out of several communities (groups) by analyzing the
+relationship table of the user and comparing it using community detection based on edge betweenness.
+@ In this process, after a community (group) of the user has been selected for evaluation, then we modify
+the group for the new user by computationally comparing the similarity of the new user to other users in
+
+Fig. 3. Movie recommender system conﬁguration diagram.
+ 
+each group from their personal information. For computing, the similarity of user cosine similarity is
+used. ® After that we match a group with the new user, the group with the highest similarity will be
+selected as a group of new users. The movies that were watched and rated by users in the matching
+group of the new user will be arranged in the order of popularity. @ In this process, the recommended
+system will select the top 5, 10, 20, 30 and 40 most popular movies and ﬁnally the system will choose
+the most popular movies that were watched by the members in the group recommend these to the new
+user.
+
+3.1 Detail of Proposed Processes
+3.1.1 New user provides personal information
+To recommend the best movies for users, we need to collect some necessary personal information about
+these users. Users who have the same behavior or same personal propensity may like the same item.
+Personal propensity that we use for performance in this research includes age, gender, and occupation.
+
+3.1.2 The relationship between users table
+In our proposed algorithm, the centrality of SNA was applied. Therefore, we have to make a
+relationship table between users according to their personal propensity including age, gender, and
+occupation. We assume that if the users have the same personal information it means they have a
+relationship to each order. This table can be formalized as a classical mathematical relationship that can
+be seen as an unspeciﬁed graph.
+
+3.1.3 Community detection based on edge betweenness.
+
+After getting the relationship between users table, in this process, we want to cluster users into several
+groups by applying the relationship between users table. Community detection based on edge
+betweenness is used for clustering users, a community representation as a group. The concept of detection
+community based on edge betweenness is that the possibility those edge connections separate modules
+have the highest betweenness value because the shortest path from one module to another module must
+cross through those modules. Therefore, if we gradually remove the edge with the highest edge
+betweenness value, we will get a hierarchical map or a rooted tree, called a dendrogram of the graph. The
+leaves of the tree are the person’s vertices and the root of the tree means the whole graph in the network.
+
+3.1.4 Cosine similarity and Collaborative ﬁltering
+Traditional methods to measure the similarity of users just consider the similarities of user ratings. In
+reality, the similarity of users is not only linked to ratings for items, but is also linked to the preference
+for certain item categories, that is, user interest for the item category feature. In addition, if two users
+have similar personal information, these two users are considered highly similar. Therefore, our research
+modiﬁed the group for the new user by using the cosine similarity measure. After users are divided into
+several groups by community detection based on edge betweenness, then the similarity between the new
+user and the other users in each group is computed by ﬁltering personal information including age,
+gender, and occupation. For computing the similarity between users Eq. (1) is used.
+
+3.1.5 The matching group for the new user
+After completing the calculation of similarities between new users and other users in each group, we
+compared the average similarities of new users and each group. The group with the highest similarity was
+selected as the most similar group for related users.
+
+3.1.6 Ranking the popularity movies
+When ﬁnding a group that was most similar to a new user, movies watched by group members will be
+ranked according to their popularity, which was counted from the rating that each member of the group
+had given to each movie.
+
+3.1.7 Recommended movies to the new user
+After ranking popular movies from users that were similar to new users, the most popular movies were
+selected to be recommended for new users. However, the ﬁnal decision about which movies the user will
+watch will depend on the new user.
+
+In this article, we try to combine existing CF techniques with SNA. We use between centrality
+identiﬁcation method and the introduction of a movie recommendation system that may give the best
+predictions about the movie program that the target user might be interested in. The algorithm used in
+our recommendation system is shown in Algorithm 1.
+
+ 
+Algorithm 1. movies recommender system using social network analysis and collaborative ﬁltering
+ 
+1: Input: user: Uk, user-movie matrix, Rating table: R, Recommended recipient user: N
+2: Output: Recommended list: RL
+3: Procedure:
+4: Create the relationships between user table
+5: Clustering user Uk by using community detection based on edge betweenness
+6: Cosine similarity and collaborative ﬁltering are used to modify the group
+7: Matching the group for new user.
+8: Count movies rating
+9: Recommended movie list.
+
+ 
+4. Experimental Analysis
+4.1 Experimental Dataset
+In the experiment in this research, we used the MovieLens dataset provided by the GroupLens research
+group at the University of Minnesota, USA [25]. It comprises data from three orders of scale. Each data
+set has related user’s information, user’s ratings, and the movie’s information. This dataset consisted of
+100,000 ratings; the rating is in range of 1 to 5. This dataset includes 943 users and 1,682 movies. Each
+user gives a rating to movies at least 20 movies. This dataset also has simple information for each user,
+such as gender, age and occupation.
+
+
+ 
+To evaluate the quality of our proposed method, the dataset is divided into two parts: the training and
+testing set. It is very important to evaluate performance using data not involved in formulating the model.
+To improve the accuracy of the recommendation system, both sets of dataset included 10 random datasets
+from users who gave ratings to at least 20 movies, users who gave ratings to at least 50 movies, users who
+gave ratings to at least 100 movies, and users who gave ratings to at least 200 movies. This means we have
+to implement the method a total of 40 times.
+
+Training dataset is used after a model has been processed. In the setting of this recommender system,
+partitioning is performed by randomly selecting some users and some ratings from all users. There are
+800 users in this dataset. Training set is implemented to build up a model. Testing dataset is used to test
+the model by making predictions. There are 143 users in this dataset. Some users and some ratings are
+then randomly selected from all users.
+
+Fig. 4 shows part of the user’s personal information provided by MovieLens. Fig. 5 displays a section
+of rating and matrix data generated from rating data by users who watch certain movies. In Fig. 5, the
+columns are user numbers or user IDs, while the rows are movie numbers or movie IDs. Table 1 shows
+the result of user relationships after comparing user’s personalization information.
+
+user id age gender new nation zi p node
+1 24 M tech n ician 8.5211
+2 53 F othe I 94043
+3 23 M write r 3206?
+
+4 24 M tech n ician 4353?
+
+5 33 F othe r 1.5213
+6 42 M executive 98101
+T .5? M ad m inistratc-r 91344
+8 36 M ad m inistrator 5201
+9 29 M stude nt 1002
+10 .53 M lawyer 90203
+11 39 F othe I 30393
+12 28 F othe r 6405
+13 4? M educator 23206
+14 4.5 M scie ntiSt 5.5106
+15 49 F educator 97301
+Fig. 4. MovieLens’ user information part
+1 9 6 2 12 3 m
+. 1 2 3 4 5 6 7 a 9 10
+1 8 6 3 02 3 m“
+22 3 .3 .3 1 1 5 4 4 4 4
+2 3 3
+2 ‘1 ‘1 5 1 2 3 4
+166 3-16 1 4 3 5 4
+298 “I'M 4 5 3
+115 265 2 5 5
+253 165 5 7 4 2 5 3 4
+s 1 4 5
+3 CI 5 ‘1 5 1 3 9 5 4 5 4
+5 a 6 3 10 3 2 4
+6 2 2 5 T 2 11 2 4 3 3 4
+Fig. 5. Users—movies matrix part.
+
+ 
+ 
+u] 112 113 “4 “5
+m 1 0 0 l 0
+uz 0 l 0 O 1
+us 0 0 1 0 0
+L14 1 0 0 1 0
+us 0 l 0 0 1
+ 
+4.2 Experimental Environment
+Hardware and software used to evaluate the methods proposed in the paper are shown in Table 2.
+
+R programming language is an open source scripting language for predictive analysis and visualization.
+The R programming language includes functions that support linear modeling, non-linear modeling,
+classical statistics, classiﬁcations, clustering, and more. It has remained popular in academic settings due
+to its robust features and the fact that it is free to download in source code form under the terms of the
+Free Software Foundation’s GNU general public license. It compiles and runs on UNIX platforms and
+other systems including Linux, Windows, and Mac OS. Hence, we can easily identify the source code to
+see what it is doing on the screen. Anyone can ﬁx bugs and add a feature without having to wait for the
+seller to do it for us. Moreover, it always allows us to integrate with other languages (C, C++).
+Furthermore, it enables us to interact with many data sources and statistical packages (SAS, SPSS).
+
+Table 2. Resources
+ 
+ 
+Description Speciﬁcation
+Operating system Windows 7 Ultimate Service Pack 1
+Processor Intel Core i7 2600k CPU @3.40 GHz
+RAM 12 GB
+System type 64-bit operating system
+Hard disk 500 GB
+Data analysis software R i386 3.4.2
+ 
+4.3 Experimental Results
+Several metrics have been proposed to evaluate the accuracy of the CF method algorithm. Mean
+absolute error (MAE) is one of the most commonly used tools for measuring the accuracy of the
+recommender system [26]. MAE evaluates the accuracy of a prediction algorithm by comparing
+numerical deviation of the predicted rating from the respective actual user rating. Formally, if n is the
+number of an actual item that is purchase by a target user and MAE is assigned as the mean absolute
+difference between the pair. And assuming that the predicted rating set of the target user u is {Pub puZ, ...,
+PuN} and actual rating set is {n.1, r142, ..., ruN}, then MAE is deﬁned as follows:
+N ._ .
+MAE = 21=1|PA11u Tull (2)
+After performing the proposed method, we want to predict the accuracy of our proposed method. We
+want to know when our system recommended movies, how many movies were actually watched from the
+ 
+user. MAE can help measure the level of satisfaction and evaluate the accuracy of the recommender
+system. Normally, the lower the value of the MAE, the higher the accuracy of the recommendation. To
+the computation of MAE, the Eq. (2) is used.
+
+As described in Section 4.1 we performed experiments in four cases: random testing datasets from users
+who gave ratings to at least 20, 50, 100, 200 movies. To reduce inaccuracy of the MAE values, we
+performed 10 experiments using each dataset. In total, of an experiment are 40 times. The average results
+of the movie recommendation system using SNA and CF for 10 experiments are shown in Fig. 6.
+
+Fig. 5 shows the average of all experiments from 10 random times; the best result for the number of
+movie recommendations was 5. Therefore, we averaged the result from four cases; the average result from
+four cases was 3.55 when 5 movies were recommended. The average result from four cases was 3.79 when
+10 movies were recommended. The average result from four cases was 4.34 when 20 movies were
+recommended. The average result from four cases was 4.59 when 30 movies were recommended. The
+average result from four cases was 4.78 when 40 movies were recommended. The maximum MAE value
+is 10. Therefore, we can say that our proposed method is very effective and can solve the cold-start
+problem. From these results, we can also interpret that the user was interested in more than 3 out of 5
+movies recommended by the system.
+
+ 
+SNA and CF
+10
+E 8
+a
+o 6 l >=20
+% 4 I >=50
+E l >=100
+2
+I >=200
+0
+ 
+Number of movies recommended
+ 
+ 
+ 
+Fig. 6. The result of social network analysis (SNA) and collaborative ﬁltering (CF) method.
+
+In order to conﬁrm the effectiveness of the methods that are presented in this paper, we have compared
+with other methods including density-based on clustering [27] method, the CF with k—NN, and CF
+method.
+
+The results of the movie recommendation system using density-based on clustering by used the same
+dataset as a proposed method are shown in Fig. 7.
+
+In Fig. 6, the average result from four cases was 4.19 when 5 movies were recommended. The average
+result from four cases was 4.76 when 10 movies were recommended. The average result from four cases
+was 5.28 when 20 movies were recommended. The average result from four cases was 5.44 when 30
+movies were recommended. The average result from four cases was 5.63 when 40 movies were
+recommended. The maximum MAE value is 10. The best number of movies recommended in this
+method was also 5.
+
+ 
+Density-based on clustering
+ 
+ 
+10
+E 8
+g. 6 I>=20
+9 ->—50
+a 4 I> 100
+2 =
+E
+0 I>=200
+ 
+ 
+Number of movies recommended
+ 
+ 
+ 
+Fig. 7. The result of density-based on clustering method.
+
+Fig. 8 showed the results of the movie recommender system using k—NN and CF, the average result
+from four cases was 3.60 when 5 movies were recommended. The average result from four cases was 3.96
+when 10 movies were recommended. The average result from four cases was 4.35 when 20 movies were
+recommended. The average result from four cases was 4.61 when 30 movies were recommended. The
+average result from four cases was 4.85 when 40 movies were recommended. The maximum MAE value
+is 10. The best number of movies recommended in this method was also 5, as in previous methods.
+
+ 
+ 
+ 
+ 
+k-NN and CF
+10
+E 8
+8. 6 I>=20
+3 I >=50
+3% 4 I>—100
+E 2
+0 I >=200
+ 
+5 10 20 30 40
+Number of movie recommended
+ 
+ 
+Fig. 8. The result k-NN and collaborative ﬁltering method.
+
+Traditional datasets that are not tuned have been tested using traditional CF algorithm. For the movie
+recommendation system based on original CF, the neighbor for the user who has the same taste as the
+new user was found. The result of the movie recommender system using CF is shown in Fig. 9. When 5
+movies were recommended the result was 5.75. When 10 movies were recommended the result was 5.84.
+When 20 movies were recommended the result was 6.06. When 30 movies were recommended the result
+was 6.29. When 40 movies were recommended the result was 6.48. The best number of movies
+recommended using this method was also 5; same as other methods.
+
+After that, we will show the efﬁciency of each method by comparing the total average of the MAE
+results of the four methods. The total average result of the movie recommendation system that is
+ 
+proposed to use k—NN and CF shows better results than the total average result of the movie
+recommendation system that is proposed to use density-based clustering. The k-NN and CF method also
+shows better results than the results of the movie recommendation that is proposed to use original CF.
+The total average result of the method we propose, which is a movie recommendation system that is
+proposed to use SNA and CF, is more accurate than the other three methods as shown in Fig. 10. We also
+have to argue that the efﬁciency of our method is better than the other three methods. We also have to
+argue that the efﬁciency of the three methods is the best of our method.
+
+CF
+5.75 5.84 6.06 6.29 6.48
+5 10 20 3O 40
+Number of movies recommended
+._.
+O
+ 
+33
+.S
+C
+a.
+o
+C
+Lu
+<
+E
+ 
+ 
+Fig. 9. The result of collaborative ﬁltering method.
+
+ 
+ 
+10
+a 8 I SNA and CF
+0
+on. 6 I Density-based on
+C 4 clustering
+g - k-NN and CF
+2 2
+I CF
+0
+5 10 20 30 40
+Number of movies recommended
+ 
+ 
+Fig. 10. Comparative the result of the experimental.
+
+5. Conclusions and Future Work
+This paper aims to solve the problem of CF by using SNA in the recommender system. We design and
+implement in R programming which is an open source scripting language for predictive analytics and
+data visualization. The recommendation system is a way to help the users to ﬁnd the information that
+they want easily. CF is one of the most popular uses one and a successful method used in the
+
+recommender system. However, it has weakness such as cold start problem. To overcome this problem,
+in this paper we proposed an alternative approach for the recommender system using both SNA and CF.
+We found the community or group for the user based on edge betweenness centrality. The method that
+we proposed here is very effective for making movie recommendations. Analyzing results showed that
+the total number of 20 movies recommended was better than 40 and the best number of movies
+recommended was 5. In addition, the method presented in this paper showed the best performance,
+followed by k-NN and CF, Density-based clustering, and CF.
+
+However, the implementation processed in this paper by using R programming took a very long time.
+Therefore, we propose to reduce the experiment time and to improve the accuracy and effectiveness of
+the recommender system by applying various types of datasets in future research.
+
+Acknowledgement
+This research was supported by the MSIT (Ministry of Science and ICT), Korea, under the ITRC
+(Information Technology Research Center) support program (IITP-2019-2014-1-00720) supervised by
+the IITP (Institute for Information & communications Technology Planning & Evaluation) and the
+National Research Foundation of Korea (No. 2017R1A2B1008421).
+
