@@ -13,12 +13,12 @@ Mainly Assignments
 
 ## NLP
 ### Team_Project
-1-1. 앱스토어-한글.ipynb: Crawling code of application from GooglePlay store
-1-1-1. base url: https://play.google.com/store
-1-1-2. Mechanism: From the base url, search for the text(=App name) that pre-defined. And click reviews about the app. Scroll to the bottom of reviews (to the first review of app). Finally crawl all review texts.
-1-2. tf-idf.ipynb: Calculate tf-idf score of each reviews
-1-3. Weight Keywords.ipynb: Calculate weighted score of tf-idf score of each reviews by product review star rate and tf-idf score
-1-4. 형태소, TF-IDF, Weight.ipynb: From Weight Keywords.ipynb, extract meaningful keywords with review score where they are come from
+1. 앱스토어-한글.ipynb: Crawling code of application from GooglePlay store
+2. base url: https://play.google.com/store
+3. Mechanism: From the base url, search for the text(=App name) that pre-defined. And click reviews about the app. Scroll to the bottom of reviews (to the first review of app). Finally crawl all review texts.
+4. tf-idf.ipynb: Calculate tf-idf score of each reviews
+5. Weight Keywords.ipynb: Calculate weighted score of tf-idf score of each reviews by product review star rate and tf-idf score
+6. 형태소, TF-IDF, Weight.ipynb: From Weight Keywords.ipynb, extract meaningful keywords with review score where they are come from
 ---
 
 ## Neural-Network and Deep-Learning
